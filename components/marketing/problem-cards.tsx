@@ -19,7 +19,7 @@ const defaultIcons = [AlertTriangle, XCircle, Ban]
 
 export function ProblemCards({ problems }: ProblemCardsProps) {
   return (
-    <section className="section-spacing px-4 sm:px-6">
+    <section id="problem-cards" className="section-spacing px-4 sm:px-6">
       <div className="container-section">
         {/* Section Header */}
         <motion.div

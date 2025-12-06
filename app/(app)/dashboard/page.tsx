@@ -5,20 +5,61 @@ import { WorldMap } from "@/components/map/world-map"
 import { ScenarioPanel } from "@/components/scenarios/scenario-panel"
 import { AppHeader } from "@/components/layout/app-header"
 import { AnimatePresence } from "framer-motion"
+import { DEFAULT_ATLANTIS_PARAMS, type AtlantisParams } from "@/lib/atlantis"
+
+interface ReasoningStep {
+  step: number
+  fact: string
+  conclusion: string
+  weight: number
+}
 
 interface Scenario {
-  type: "positive" | "neutral" | "negative"
+  type: "positive" | "negative"
+  timeframe: "12" | "36"
   title: string
   description: string
   probability: string
-  timeframe: string
+  impact_on_atlantis: {
+    economy: number
+    security: number
+    energy: number
+    technology: number
+  }
   keyFactors: string[]
+  reasoning: (ReasoningStep | string)[] // Może być tablica obiektów lub stringów
+}
+
+interface Source {
+  title: string
+  url: string
+  date: string
+  reliability: "high" | "medium" | "low"
+  relevance: number
 }
 
 interface ScenarioContext {
   currentSituation: string
   geopoliticalFactors: string[]
   recentNews: string[]
+}
+
+interface Recommendations {
+  avoid_negative: string[]
+  achieve_positive: string[]
+  priority_actions: {
+    action: string
+    timeframe: string
+    impact: "high" | "medium" | "low"
+  }[]
+}
+
+interface ScenarioData {
+  scenarios: Scenario[]
+  context: ScenarioContext
+  sources: Source[]
+  reasoning_summary: string
+  recommendations: Recommendations
 }
 
 export default function DashboardPage() {
@@ -28,6 +69,10 @@ export default function DashboardPage() {
   } | null>(null)
   const [scenarios, setScenarios] = useState<Scenario[] | null>(null)
   const [context, setContext] = useState<ScenarioContext | null>(null)
+  const [sources, setSources] = useState<Source[] | null>(null)
+  const [reasoningSummary, setReasoningSummary] = useState<string | null>(null)
+  const [recommendations, setRecommendations] =
+    useState<Recommendations | null>(null)
   const [loading, setLoading] = useState(false)
 
   const handleCountryClick = async (code: string, name: string) => {
@@ -35,21 +80,37 @@ export default function DashboardPage() {
     setLoading(true)
     setScenarios(null)
     setContext(null)
+    setSources(null)
+    setReasoningSummary(null)
+    setRecommendations(null)
 
     try {
+      // Timeout 90s dla stabilności (DeepSeek może być wolny)
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 90000)
+
       const response = await fetch("/api/scenarios", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ country: name }),
+        body: JSON.stringify({
+          country: name,
+          atlantisParams: DEFAULT_ATLANTIS_PARAMS,
+        }),
+        signal: controller.signal,
       })
+
+      clearTimeout(timeoutId)
 
       if (!response.ok) {
         throw new Error("Failed to fetch scenarios")
       }
 
-      const data = await response.json()
+      const data: ScenarioData = await response.json()
       setScenarios(data.scenarios)
       setContext(data.context)
+      setSources(data.sources)
+      setReasoningSummary(data.reasoning_summary)
+      setRecommendations(data.recommendations)
     } catch (error) {
       console.error("Error fetching scenarios:", error)
       // TODO: Add toast notification for error
@@ -62,16 +123,19 @@ export default function DashboardPage() {
     setSelectedCountry(null)
     setScenarios(null)
     setContext(null)
+    setSources(null)
+    setReasoningSummary(null)
+    setRecommendations(null)
   }
 
   return (
     <div className="h-screen flex flex-col">
-      <AppHeader title="Mapa Scenariuszy" />
+      <AppHeader title="Scenariusze Przyszłości" />
 
       {/* Info Bar */}
       {!selectedCountry && (
         <div className="bg-primary/10 border-b px-4 py-3">
-          <div className="max-w-7xl mx-auto flex items-center gap-3">
+          <div className="max-w-7xl mx-auto flex items-center justify-center gap-3">
             <svg
               className="w-5 h-5 text-primary shrink-0"
               fill="none"
@@ -88,7 +152,7 @@ export default function DashboardPage() {
             <p className="text-sm font-medium">
               <span className="hidden sm:inline">
                 Kliknij w dowolny kraj na mapie, aby wygenerować 3 scenariusze
-                przyszłości przez AI
+                przyszłości
               </span>
               <span className="sm:hidden">
                 Wybierz kraj aby zobaczyć scenariusze AI
@@ -110,6 +174,9 @@ export default function DashboardPage() {
               country={selectedCountry.name}
               scenarios={scenarios}
               context={context}
+              sources={sources}
+              reasoningSummary={reasoningSummary}
+              recommendations={recommendations}
               loading={loading}
               onClose={handleClose}
             />

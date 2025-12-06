@@ -14,20 +14,20 @@ export const CONTENT = {
     tagline: "Przewidywanie przyszłości geopolitycznej z AI",
     description:
       "Świat zmienia się szybciej, niż potrafimy go analizować. Dzięki nowoczesnym technologiom możemy nie tylko obserwować rzeczywistość, ale też przewidywać jej przyszłe scenariusze.",
-    hackathon: "GovTech Challenge 2025",
-    team: "AI Futures",
+    hackathon: "HackNation 2025",
+    team: "Michał Zeprzałka",
   },
 
   // ========================================
   // HERO SECTION - Główny nagłówek
   // ========================================
   hero: {
-    title: "Przewiduj przyszłość świata",
-    subtitle: "Analiza geopolityczna napędzana AI i aktualnymi newsami",
-    description:
-      "Kliknij w dowolny kraj na mapie, aby zobaczyć 3 scenariusze przyszłości wygenerowane przez sztuczną inteligencję",
-    ctaPrimary: "Uruchom Demo",
-    ctaSecondary: "Dokumentacja",
+    title: "Przewiduj Przyszłość Świata",
+    subtitle:
+      "Analiza geopolityczna przygotowana przez model AI na bazie aktualnych informacji ze świata",
+
+    ctaPrimary: "Uruchom Mapę",
+    ctaSecondary: "Zobacz Dokumentację",
   },
 
   // ========================================

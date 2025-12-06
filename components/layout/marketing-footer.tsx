@@ -11,10 +11,9 @@ export function MarketingFooter() {
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>
-            Built for{" "}
+            Stworzone na{" "}
             <span className="font-semibold">{CONTENT.project.hackathon}</span>{" "}
-            by Team{" "}
-            <span className="font-semibold">{CONTENT.project.team}</span>
+            przez <span className="font-semibold">{CONTENT.project.team}</span>
           </p>
 
           <p>

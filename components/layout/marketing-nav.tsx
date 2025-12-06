@@ -12,20 +12,25 @@ export function MarketingNav() {
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center">
+          {/* <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center">
             <span className="text-white font-bold text-lg">
               {CONTENT.project.name.charAt(1) || "H"}
             </span>
           </div>
           <span className="font-bold text-lg hidden sm:inline">
             {CONTENT.project.name}
-          </span>
+          </span>*/}
+          <img
+            src="/MSZ_logo.png"
+            alt={CONTENT.project.name}
+            className="h-14 object-contain"
+          />
         </Link>
 
         {/* Right Actions */}
         <div className="flex items-center gap-3">
           <Button asChild variant="outline" size="sm">
-            <Link href="/dashboard">Demo</Link>
+            <Link href="/dashboard">Uruchom Mapę</Link>
           </Button>
           <ThemeToggle />
 

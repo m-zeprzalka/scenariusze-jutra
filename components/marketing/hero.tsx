@@ -41,7 +41,7 @@ export function Hero({
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            Hackathon 2025
+            HackNation 2025 - Bydgoszcz
           </span>
         </motion.div>
 
@@ -74,7 +74,7 @@ export function Hero({
         {/* CTA Buttons */}
         <motion.div
           variants={fadeInUp}
-          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 mt-8"
         >
           <Button
             asChild
@@ -93,7 +93,7 @@ export function Hero({
             variant="outline"
             className="group w-full sm:w-auto"
           >
-            <Link href="#tech-stack">
+            <Link href="#problem-cards">
               <FileText className="mr-2 h-4 w-4" />
               {ctaSecondary}
             </Link>
@@ -103,7 +103,7 @@ export function Hero({
         {/* Scroll Indicator */}
         <motion.div variants={fadeInUp} className="mt-12 sm:mt-20">
           <div className="flex flex-col items-center gap-2 text-muted-foreground/60">
-            <span className="text-xs sm:text-sm">Scroll aby poznać więcej</span>
+            <span className="text-xs sm:text-sm">Zobacz Szczegóły</span>
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
